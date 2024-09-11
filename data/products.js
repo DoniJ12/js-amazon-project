@@ -28,7 +28,10 @@ class Product {
     return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
   getPrice() {
-    `$${formatCurrency(this.priceCents)}`;
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+  extraInfo() {
+    return "";
   }
 }
 const product = new Product({
@@ -42,6 +45,19 @@ const product = new Product({
   priceCents: 1090,
   keywords: ["socks", "sports", "apparel"],
 });
+
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraInfo() {
+    return `<a href= ${this.sizeChartLink} target= "_blank">Size chart</a>`;
+  }
+}
 
 export const products = [
   {
@@ -122,6 +138,8 @@ export const products = [
     },
     priceCents: 2400,
     keywords: ["hoodies", "sweaters", "apparel"],
+    type: "clothing",
+    sizeChartLink: "images/clothing-size-chart.png",
   },
   {
     id: "77919bbe-0e56-475b-adde-4f24dfed3a04",
@@ -513,7 +531,12 @@ export const products = [
     },
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
+    type: "clothing",
+    sizeChartLink: "images/clothing-size-chart.png",
   },
 ].map((productDetails) => {
+  if (productDetails.type === "clothing") {
+    return new Clothing(productDetails);
+  }
   return new Product(productDetails);
 });
