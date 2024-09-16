@@ -72,7 +72,10 @@ export function loadProductsFetch() {
     });
     console.log('Load Products');
     
+  }).catch(() => {
+    console.log("Unexpected error")
   })
+  
   return promise
 }
 /*
@@ -94,10 +97,13 @@ export function loadProducts(fun) {
     fun();
   });
 
+  xhr .addEventListener('error', () => {
+    console.log('Unexpected Error')
+  })
+
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
-
 /*
 
 Built in Date Class
